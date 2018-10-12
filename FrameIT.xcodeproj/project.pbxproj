@@ -15,6 +15,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		3F1FACBC217146350049D129 /* Nunito-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Nunito-Regular.ttf"; sourceTree = "<group>"; };
 		3FBB62AC216FA48800189EBD /* FrameIT.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FrameIT.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3FBB62AF216FA48800189EBD /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		3FBB62B1216FA48800189EBD /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -35,6 +36,41 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		3F1FACB8217145A00049D129 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		3F1FACB9217145C50049D129 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				3FBB62B3216FA48800189EBD /* Main.storyboard */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		3F1FACBA217145D40049D129 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				3FBB62B1216FA48800189EBD /* ViewController.swift */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		3F1FACBB217146150049D129 /* Supporting files */ = {
+			isa = PBXGroup;
+			children = (
+				3F1FACBC217146350049D129 /* Nunito-Regular.ttf */,
+				3FBB62AF216FA48800189EBD /* AppDelegate.swift */,
+				3FBB62B6216FA48900189EBD /* Assets.xcassets */,
+				3FBB62B8216FA48900189EBD /* LaunchScreen.storyboard */,
+				3FBB62BB216FA48900189EBD /* Info.plist */,
+			);
+			name = "Supporting files";
+			sourceTree = "<group>";
+		};
 		3FBB62A3216FA48800189EBD = {
 			isa = PBXGroup;
 			children = (
@@ -54,12 +90,10 @@
 		3FBB62AE216FA48800189EBD /* FrameIT */ = {
 			isa = PBXGroup;
 			children = (
-				3FBB62AF216FA48800189EBD /* AppDelegate.swift */,
-				3FBB62B1216FA48800189EBD /* ViewController.swift */,
-				3FBB62B3216FA48800189EBD /* Main.storyboard */,
-				3FBB62B6216FA48900189EBD /* Assets.xcassets */,
-				3FBB62B8216FA48900189EBD /* LaunchScreen.storyboard */,
-				3FBB62BB216FA48900189EBD /* Info.plist */,
+				3F1FACB8217145A00049D129 /* Model */,
+				3F1FACBB217146150049D129 /* Supporting files */,
+				3F1FACBA217145D40049D129 /* Controller */,
+				3F1FACB9217145C50049D129 /* View */,
 			);
 			path = FrameIT;
 			sourceTree = "<group>";
