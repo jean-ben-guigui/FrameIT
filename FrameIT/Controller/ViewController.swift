@@ -19,9 +19,13 @@ class ViewController: UIViewController, UINavigationControllerDelegate, UIImageP
         configure()
     }
 
+    @IBOutlet var mainView: UIView!
+    
     @IBOutlet weak var creationFrame: UIView!
 
     @IBOutlet weak var CreationImageView: UIImageView!
+    
+    @IBOutlet weak var unicornView: UIImageView!
     
     @IBOutlet weak var startOverButton: UIButton!
     
@@ -36,47 +40,83 @@ class ViewController: UIViewController, UINavigationControllerDelegate, UIImageP
     }
     
     @objc func rotateImage(_ sender: UIRotationGestureRecognizer) {
-        CreationImageView.transform = CreationImageView.transform.rotated(by: sender.rotation)
-        sender.rotation = 0
+        if !isImagePlaceholder {
+            CreationImageView.transform = CreationImageView.transform.rotated(by: sender.rotation)
+            sender.rotation = 0
+        }
     }
     
     @objc func scaleImageView(_ sender: UIPinchGestureRecognizer) {
-        CreationImageView.transform = CreationImageView.transform.scaledBy(x: sender.scale, y: sender.scale)
-        sender.scale = 1
+        if !isImagePlaceholder {
+            CreationImageView.transform = CreationImageView.transform.scaledBy(x: sender.scale, y: sender.scale)
+            sender.scale = 1
+        }
     }
     
     @objc func moveImageView(_ sender: UIPanGestureRecognizer) {
-        let translation = sender.translation(in: CreationImageView.superview)
-        
-        if sender.state == .began {
-            initialImageViewOffset = CreationImageView.frame.origin
+        if !isImagePlaceholder {
+            let translation = sender.translation(in: CreationImageView.superview)
+            
+            if sender.state == .began {
+                initialImageViewOffset = CreationImageView.frame.origin
+            }
+            let position = CGPoint(x: initialImageViewOffset.x + translation.x - CreationImageView.frame.origin.x, y: initialImageViewOffset.y + translation.y - CreationImageView.frame.origin.y)
+            
+            CreationImageView.transform = CreationImageView.transform.translatedBy(x: position.x, y: position.y)
         }
-        let position = CGPoint(x: initialImageViewOffset.x + translation.x - CreationImageView.frame.origin.x, y: initialImageViewOffset.y + translation.y - CreationImageView.frame.origin.y)
-        
-        CreationImageView.transform = CreationImageView.transform.translatedBy(x: position.x, y: position.y)
     }
     
     @IBAction func share(_ sender: Any) {
         if let index = colorSwatches.index(where: {$0.caption == creation.colorSwatch.caption}) {
             savedColorSwatchIndex = index
         }
+        displaySharingOptions(sender)
+    }
+    
+    func displaySharingOptions(_ sender: Any) {
+        //prepare the items to share
+        let note = "avron !"
+        let image = composeCreationImage()
+        let items = [note as Any, image as Any]
+        
+        //present the sharing window
+        let activityViewController = UIActivityViewController(activityItems: items, applicationActivities: nil)
+        activityViewController.excludedActivityTypes = [UIActivity.ActivityType.postToFacebook]
+        activityViewController.popoverPresentationController?.sourceView = sender as? UIView
+        present(activityViewController, animated: true, completion: nil)
+    }
+    
+    func composeCreationImage() -> UIImage{
+        UIGraphicsBeginImageContextWithOptions(creationFrame.bounds.size, false, 0)
+        creationFrame.drawHierarchy(in: creationFrame.bounds, afterScreenUpdates: true)
+        let screenshot = UIGraphicsGetImageFromCurrentImageContext()!
+        UIGraphicsEndImageContext()
+        
+        return screenshot
     }
     
     @IBAction func startOver(_ sender: Any) {
-        UIView.animate(withDuration: 0.4, delay: 0.0, usingSpringWithDamping:0.5, initialSpringVelocity: 0.5, options: [],
-        animations: {
-            self.CreationImageView.transform = .identity
-        },
-        completion: {(success) in
+            let oldColorSwatch = self.creation.colorSwatch
             self.creation.reset(colorSwatch: self.colorSwatches[self.savedColorSwatchIndex])
-            self.animateImageChange()
-            self.animateColorApply()
-        })
+            UIView.animate(withDuration: 0.4, delay: 0.0, usingSpringWithDamping:0.5, initialSpringVelocity: 0.5, options: [],
+            animations: {
+                self.CreationImageView.transform = .identity
+            },
+            completion: {(success) in
+                self.animateImageChange()
+                self.startOverButton.isEnabled = false
+                if oldColorSwatch.caption != self.colorSwatches[self.savedColorSwatchIndex].caption {
+                    self.animateColorApply()
+                }
+            })
     }
+    
     @IBAction func applyColor(_ sender: UIButton) {
         if let index = colorsContainer.subviews.index(of: sender) {
-            creation.colorSwatch = colorSwatches[index]
-            animateColorApply()
+            if creation.colorSwatch.caption != colorSwatches[index].caption {
+                creation.colorSwatch = colorSwatches[index]
+                animateColorApply()
+            }
         }
     }
     
@@ -109,6 +149,10 @@ class ViewController: UIViewController, UINavigationControllerDelegate, UIImageP
     var creation = Creation.init()
     
     var initialImageViewOffset = CGPoint()
+    
+    var isImagePlaceholder = true
+    
+    var isUnicornLeftSide = true
     
     //getter functions
     func collectLocalImageSet() {
@@ -253,6 +297,8 @@ class ViewController: UIViewController, UINavigationControllerDelegate, UIImageP
     func processPicked(image: UIImage?) {
         if let newImage = image {
             creation.image = newImage
+//            isImagePlaceholder = false
+            startOverButton.isEnabled = true
             animateImageChange()
         }
     }
@@ -280,6 +326,8 @@ class ViewController: UIViewController, UINavigationControllerDelegate, UIImageP
         }
     }
     
+    
+    
     func configure() {
         collectLocalImageSet()
         
@@ -290,6 +338,8 @@ class ViewController: UIViewController, UINavigationControllerDelegate, UIImageP
         CreationImageView.image = creation.image
         colorLabel.text = creation.colorSwatch.caption
         creationFrame.backgroundColor = creation.colorSwatch.color
+        startOverButton.isEnabled = false
+//        CreationImageView.isUserInteractionEnabled = false
         
         // create tap gesture recognizer
         let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(changeImage(_:)))
@@ -333,10 +383,12 @@ class ViewController: UIViewController, UINavigationControllerDelegate, UIImageP
     }
     
     func animateColorApply() {
-        UIView.transition(with: self.creationFrame, duration: 0.4, options: .transitionCrossDissolve, animations: {
-            self.creationFrame.backgroundColor = self.creation.colorSwatch.color
-            self.colorLabel.text = self.creation.colorSwatch.caption
-        }, completion: nil)
+            UIView.transition(with: self.creationFrame, duration: 0.4, options: .curveEaseIn, animations: {
+                self.creationFrame.backgroundColor = self.creation.colorSwatch.color
+            }, completion: nil)
+            UIView.transition(with: self.colorLabel, duration: 0.4, options: .transitionFlipFromBottom, animations: {
+                self.colorLabel.text = self.creation.colorSwatch.caption
+            }, completion: nil)
     }
     
     func randomImage() -> UIImage? {
@@ -346,6 +398,19 @@ class ViewController: UIViewController, UINavigationControllerDelegate, UIImageP
         //on vérifie que le localImages n'est pas vide et qu'il ne contient pas uniquement la même photo que celle choisie actuellement
         if localImages.count > 0 && (localImages.count != 1 || CreationImageView.image != localImages[0]) {
             if image != CreationImageView.image {
+                let yPosition = Int(arc4random_uniform(UInt32(600)))
+                UIView.transition(with: unicornView, duration: 2.0, options: .curveEaseInOut, animations: {
+                    if self.isUnicornLeftSide {
+                        self.isUnicornLeftSide = false
+                        let screenSize = UIScreen.main.bounds.size.width
+                        self.unicornView.frame.origin = CGPoint(x: Int(screenSize), y: yPosition)
+                    }
+                    else {
+                        self.isUnicornLeftSide = true
+                        let unicornViewSize = self.unicornView.bounds.size.width
+                        self.unicornView.frame.origin = CGPoint(x: -Int(unicornViewSize), y: yPosition)
+                    }
+                }, completion: nil)
                 return image
             }
             else {

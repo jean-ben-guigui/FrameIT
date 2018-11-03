@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<VariablesViewState
+   version = "1.0">
+   <ContextStates>
+      <ContextState
+         contextName = "ViewController.applyColor(_:):ViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "creation.colorSwatch">
+            </PersistentString>
+            <PersistentString
+               value = "colorSwatches[index]">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "ViewController.animateColorApply():ViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "creation.colorSwatch.color">
+            </PersistentString>
+            <PersistentString
+               value = "colorSwatches[savedColorSwatchIndex].caption">
+            </PersistentString>
+            <PersistentString
+               value = "creation.colorSwatch.caption">
+            </PersistentString>
+            <PersistentString
+               value = "colorSwatches[savedColorSwatchIndex].color">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "ViewController.isImagePlaceholder():ViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "UIImage.init(named: &quot;FrameIT-placeholder&quot;)!">
+            </PersistentString>
+            <PersistentString
+               value = "creation.image">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "closure #1 in ViewController.randomImage():ViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "self.isUnicornLeftSide">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+   </ContextStates>
+</VariablesViewState>

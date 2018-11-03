@@ -122,6 +122,10 @@
                                 <color key="textColor" red="0.3411764705882353" green="0.41960784313725491" blue="0.45490196078431372" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="unicorn-flower" translatesAutoresizingMaskIntoConstraints="NO" id="bc2-iq-AZN">
+                                <rect key="frame" x="-240" y="600" width="240" height="128"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
                         </subviews>
                         <color key="backgroundColor" red="0.94509803921568625" green="0.96078431372549022" blue="0.96078431372549022" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
@@ -131,8 +135,10 @@
                         <outlet property="colorLabel" destination="aim-sB-sfn" id="kW6-zG-L5N"/>
                         <outlet property="colorsContainer" destination="M1d-Ph-dlW" id="EBD-Q8-13x"/>
                         <outlet property="creationFrame" destination="RoI-Yb-FMK" id="U7k-uX-0wd"/>
+                        <outlet property="mainView" destination="8bC-Xf-vdC" id="wdC-Vk-zdT"/>
                         <outlet property="shareButton" destination="JYx-AZ-0se" id="KZd-U0-46y"/>
                         <outlet property="startOverButton" destination="rIR-pW-VT4" id="6ZJ-k6-8ml"/>
+                        <outlet property="unicornView" destination="bc2-iq-AZN" id="ZdV-ZA-5LA"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -164,5 +170,6 @@
         <image name="FrameIT-name-tiffany" width="564" height="95"/>
         <image name="FrameIT-placeholder" width="270" height="270"/>
         <image name="FrameIT-startover.png" width="50" height="50"/>
+        <image name="unicorn-flower" width="282" height="342"/>
     </resources>
 </document>
